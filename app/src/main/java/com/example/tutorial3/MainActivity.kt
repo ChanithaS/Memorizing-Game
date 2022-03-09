@@ -3,12 +3,14 @@ package com.example.tutorial3
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import java.util.*
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() , View.OnClickListener {
 
-//    private lateinit var but1 : ImageView
+    private lateinit var but1 : ImageView
 //    private lateinit var but2 : ImageView
 //    private lateinit var but3 : ImageView
 //    private lateinit var but4 : ImageView
@@ -34,10 +36,28 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
 //    private lateinit var but24 : ImageView
 //    private lateinit var but25 : ImageView
 
+
+    //storing the button indexes in the generated random grid
+    private val answer = mutableListOf<String>()
+    private lateinit var timerTxt : TextView
+    private lateinit var score : TextView
+
+//    private var buttons = arrayOf<ImageView>()
+//    private var buttons1 = arrayOf<ImageView>()
+//    private var buttons2 = arrayOf<ImageView>()
+//    private var buttons3 = arrayOf<ImageView>()
+//    private var buttons4 = arrayOf<ImageView>()
+    private var buttonsAll = arrayOf(arrayOf<ImageView>())
+    var timeleft:Int = 5
+    var startGame = false
+    var correctAns = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //listeners()
+
+        timerTxt = findViewById(R.id.timer)
+        score = findViewById(R.id.textView)
 
         val buttons = arrayOf(
             findViewById(R.id.imageButton1),
@@ -75,12 +95,12 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
             findViewById<ImageView>(R.id.imageButton25)
         )
 
-        var buttonsAll = arrayOf(buttons, buttons1, buttons2,buttons3,buttons4)
-
-        randomGen(buttonsAll)
+        buttonsAll = arrayOf(buttons, buttons1, buttons2,buttons3,buttons4)
+        listeners()
+        randomGen()
     }
 
-    private fun randomGen(buttonsAll: Array<Array<ImageView>>) {
+    private fun randomGen() {
         val gridSize = Random.nextInt(0,5)
 
         for ((index, images) in buttonsAll.withIndex()){
@@ -130,63 +150,126 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
                 }
             }
         }
+        timer(1)
+    }
+    private fun timer(i: Int) {
+        //time to repeat every sec
+        val period:Long  = 1000
+        //setting timer to start boolean to true
+        var timerStart = true
+
+        //creating a timer
+        val timer = Timer()
+        timer.scheduleAtFixedRate(object : TimerTask(){
+            override fun run() {
+                //checking if to start timer then only starting the time
+                if (timerStart){
+                    //decreasing time
+                    timeleft--
+                    //calling functions on a thread
+                    runOnUiThread( Runnable()
+                    {
+                        //count down for displaying the timer after 5sec
+                        if (i == 1){
+                            timerTxt.text = "Pattern will Display in $timeleft"
+                            if (timeleft == 0){
+                                //printing thr pattern
+                                pattern()
+                                //stopping the timer
+                                timerStart = false
+                            }
+                        }
+                        //count down for removing the pattern
+                        else if (i == 2){
+                            timerTxt.text = "Time left to Memorize $timeleft"
+                            if (timeleft == 0){
+                                removePattern()
+                                startGame = true
+                                //stopping the timer
+                                timerStart = false
+                            }
+                        }
+                    })
+                }
+            }
+        }, 0, period)
+    }
+
+    fun pattern(){
+        val elements = mutableListOf<String>()
+        //going through the double array
+        for(arr in buttonsAll){
+            for (buttons in arr){
+                //if the element is visible adding the id of the element to elements array
+                if (buttons.visibility == View.VISIBLE) {
+                    elements.add(resources.getResourceEntryName(buttons.id))
+                } else {
+                    // Either gone or invisible
+                }
+            }
+        }
+
+        elements.shuffle()
+        val patternSize = Random.nextInt(3,elements.size)
+
+        for (n in 0..patternSize)
+        {
+            answer.add(elements[n])
+            val name = elements[n]
+            for(arr in buttonsAll){
+                for (buttons in arr){
+                   if (resources.getResourceEntryName(buttons.id) == name) {
+                       buttons.setImageResource(R.drawable.correct)
+                   }
+                }
+            }
+        }
+        timeleft += 5
+        timer(2)
+    }
+
+    fun removePattern(){
+        for(arr in buttonsAll){
+            for (buttons in arr){
+                buttons.setImageResource(R.drawable.start)
+            }
+        }
     }
 
     override fun onClick(view: View?) {
-
-       // but1.visibility = View.GONE
-
+        if (startGame){
+            var isThere = false
+            val clickBtnName = resources.getResourceEntryName(view?.id!!)
+            for (buttonIds in answer){
+                if (clickBtnName == buttonIds){
+                    isThere = true
+                }
+            }
+            if (isThere){
+                correctAns++
+                for(arr in buttonsAll){
+                    for (buttons in arr){
+                        if (resources.getResourceEntryName(buttons.id) == clickBtnName) {
+                            buttons.setImageResource(R.drawable.correct)
+                        }
+                    }
+                }
+            }else {
+                for(arr in buttonsAll){
+                    for (buttons in arr){
+                        if (resources.getResourceEntryName(buttons.id) == clickBtnName) {
+                            buttons.setImageResource(R.drawable.wrong)
+                        }
+                    }
+                }
+            }
+        }
     }
-//    private fun listeners(){
-//        but1 = findViewById(R.id.imageButton1)
-//        but1.setOnClickListener(this)
-//        but2= findViewById(R.id.imageButton2)
-//        but2.setOnClickListener(this)
-//        but3 = findViewById(R.id.imageButton3)
-//        but3.setOnClickListener(this)
-//        but4= findViewById(R.id.imageButton4)
-//        but4.setOnClickListener(this)
-//        but5 = findViewById(R.id.imageButton5)
-//        but5.setOnClickListener(this)
-//        but6= findViewById(R.id.imageButton6)
-//        but6.setOnClickListener(this)
-//        but7 = findViewById(R.id.imageButton7)
-//        but7.setOnClickListener(this)
-//        but8= findViewById(R.id.imageButton8)
-//        but8.setOnClickListener(this)
-//        but9 = findViewById(R.id.imageButton9)
-//        but9.setOnClickListener(this)
-//        but10= findViewById(R.id.imageButton10)
-//        but10.setOnClickListener(this)
-//        but11 = findViewById(R.id.imageButton11)
-//        but11.setOnClickListener(this)
-//        but12= findViewById(R.id.imageButton12)
-//        but12.setOnClickListener(this)
-//        but13 = findViewById(R.id.imageButton13)
-//        but13.setOnClickListener(this)
-//        but14= findViewById(R.id.imageButton14)
-//        but14.setOnClickListener(this)
-//        but15 = findViewById(R.id.imageButton15)
-//        but15.setOnClickListener(this)
-//        but16= findViewById(R.id.imageButton16)
-//        but16.setOnClickListener(this)
-//        but17 = findViewById(R.id.imageButton17)
-//        but17.setOnClickListener(this)
-//        but18= findViewById(R.id.imageButton18)
-//        but18.setOnClickListener(this)
-//        but19 = findViewById(R.id.imageButton19)
-//        but19.setOnClickListener(this)
-//        but20= findViewById(R.id.imageButton20)
-//        but20.setOnClickListener(this)
-//        but21 = findViewById(R.id.imageButton21)
-//        but21.setOnClickListener(this)
-//        but22= findViewById(R.id.imageButton22)
-//        but22.setOnClickListener(this)
-//        but23 = findViewById(R.id.imageButton23)
-//        but23.setOnClickListener(this)
-//        but24= findViewById(R.id.imageButton24)
-//        but24.setOnClickListener(this)
-//        but25 = findViewById(R.id.imageButton25)
-//        but25.setOnClickListener(this)
-//    }
+    private fun listeners(){
+        for(arr in buttonsAll) {
+            for (buttons in arr) {
+                buttons.setOnClickListener(this)
+            }
+        }
+    }
 }
