@@ -11,7 +11,9 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="92dp"
+        android:layout_marginEnd="68dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,7 +44,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
 
             </RelativeLayout>
@@ -64,7 +66,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -85,7 +87,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -106,7 +108,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -127,7 +129,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -148,7 +150,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -169,7 +171,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -190,7 +192,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -211,7 +213,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
 
             </RelativeLayout>
@@ -233,7 +235,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -254,7 +256,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -275,7 +277,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -296,7 +298,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
 
             </RelativeLayout>
@@ -318,7 +320,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -339,7 +341,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -360,7 +362,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -381,7 +383,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
 
             </RelativeLayout>
@@ -403,7 +405,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -424,7 +426,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -445,7 +447,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -466,7 +468,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
 
             </RelativeLayout>
@@ -488,7 +490,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -509,7 +511,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -530,7 +532,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -551,7 +553,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_centerInParent="true"
-                    android:contentDescription="image"
+                    android:contentDescription="@string/image"
                     app:srcCompat="@drawable/start" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -572,7 +574,10 @@
         android:id="@+id/timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.557"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

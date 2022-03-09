@@ -11,14 +11,19 @@ import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() , View.OnClickListener {
 
-    //storing the button indexes in the generated random grid
+    //storing the green button indexes in the generated random pattern
     private val answer = mutableListOf<String>()
+    //two text views
     private lateinit var timerTxt : TextView
     private lateinit var score : TextView
 
+    //array containing all the buttons
     private var buttonsAll = arrayOf(arrayOf<ImageView>())
+    //initializing the time left for timer
     var timeleft:Int = 5
+    //not letting the buttons on click to function
     var startGame = false
+    //for no of correct answers and the no of clicks
     var correctAns = 0
     var noOfClicks = 0
 
@@ -29,6 +34,7 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
         timerTxt = findViewById(R.id.timer)
         score = findViewById(R.id.textView)
 
+        //creating 5 arrays containing buttons for each row
         val buttons = arrayOf(
             findViewById(R.id.imageButton1),
             findViewById(R.id.imageButton2),
@@ -64,52 +70,64 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
             findViewById(R.id.imageButton24),
             findViewById<ImageView>(R.id.imageButton25)
         )
-
+        //adding button rows containing array to buttonsAll array.. therefore creating a 2D array
         buttonsAll = arrayOf(buttons, buttons1, buttons2,buttons3,buttons4)
+        //calling the function to initialize all buttons with on click listners
         listeners()
+        //starting off the game
         randomGen()
     }
 
     private fun randomGen() {
-        timerTxt.text = "Pattern will be displayed in 5sec"
+        //generating a value randomly for gridSize  3×3, 3×4, 4×3, 5×5, 4×5, or 5×4.
         val gridSize = Random.nextInt(0,5)
 
+        //going through all the buttons
         for ((index, images) in buttonsAll.withIndex()){
+            //if gridSize is 0 th one ... meaning 3×3
             if(gridSize == 0){
-                    if (index == 0 || index == 4){
-                        for (values in images){
-                            values.visibility = View.GONE
-                        }
+                //setting the visibility of the buttons to GONE according to the pattern
+                if (index == 0 || index == 4){
+                    for (values in images){
+                        values.visibility = View.GONE
                     }
-                    else{
-                        images[0].visibility = View.GONE
-                        images[4].visibility = View.GONE
-                    }
+                }
+                else{
+                    images[0].visibility = View.GONE
+                    images[4].visibility = View.GONE
+                }
             }
+            //if gridSize is 1 th one ... meaning 3×4
             else if (gridSize == 1){
-                    if (index == 3 || index == 4){
-                        for (values in images){
-                            values.visibility = View.GONE
-                        }
+                //setting the visibility of the buttons to GONE according to the pattern
+                if (index == 3 || index == 4){
+                    for (values in images){
+                        values.visibility = View.GONE
                     }
-                    else{
-                        images[4].visibility = View.GONE
-                    }
+                }
+                else{
+                    images[4].visibility = View.GONE
+                }
             }
+            //if gridSize is 2 th one ... meaning 4×3
             else if (gridSize == 2){
-                    if (index == 4){
-                        for (values in images){
-                            values.visibility = View.GONE
-                        }
+                if (index == 4){
+                    for (values in images){
+                        values.visibility = View.GONE
                     }
-                    else{
-                        images[3].visibility = View.GONE
-                        images[4].visibility = View.GONE
-                    }
+                }
+                else{
+                    images[3].visibility = View.GONE
+                    images[4].visibility = View.GONE
+                }
             }
+            //if gridSize is 3 th one ... meaning 5×5
+                //do nothing cause its set by default
+            //if gridSize is 2 th one ... meaning 4×5
             else if(gridSize == 4){
                 images[4].visibility = View.GONE
             }
+            //if gridSize is 2 th one ... meaning 5×4
             else if (gridSize == 5){
                 if (index == 4){
                     for (values in images){
@@ -118,7 +136,10 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
                 }
             }
         }
+        //calling the timer
         timer(1)
+
+        //another method to call the timer ... but cant display the timer count
 //        val handler = Handler()
 //        handler.postDelayed(Runnable {
 //            //finding the respective button
@@ -155,8 +176,11 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
                 }
             }
         }
+        //increasing the timer and calling the timer function
         timeleft += 5
         timer(2)
+
+        //another method to call the timer ... but cant display the timer count
 //        val handler = Handler()
 //        handler.postDelayed(Runnable {
 //            //finding the respective button
@@ -166,6 +190,7 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
     }
 
     fun removePattern(){
+        //changing all the images to normal image
         for(arr in buttonsAll){
             for (buttons in arr){
                 buttons.setImageResource(R.drawable.start)
@@ -194,7 +219,7 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
             if (isThere){
                 //increasing correct answers
                 correctAns++
-                //getting the button from the 2d array changing its image
+                //getting the button from the 2d array changing its image to green
                 for(arr in buttonsAll){
                     for (buttons in arr){
                         if (resources.getResourceEntryName(buttons.id) == clickBtnName) {
@@ -205,6 +230,7 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
                 //changing the button to normal after 2 seconds
                 changeBack(clickBtnName)
             }else {
+                //changing the button color to red with cross
                 for(arr in buttonsAll){
                     for (buttons in arr){
                         if (resources.getResourceEntryName(buttons.id) == clickBtnName) {
@@ -215,11 +241,16 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
                 //changing the button to normal after 2 seconds
                 changeBack(clickBtnName)
             }
+            //displaying the no of correct answers
+            score.text = " $correctAns / ${answer.size}"
+            //displaying the no of attemps left
+            timerTxt.text = "No.Of Attempts Left = ${answer.size - noOfClicks}"
+
+            //if no of clicks clicked by user exceeds the attempts.. restarting the game
             if (noOfClicks >= answer.size){
                 reset()
             }
         }
-
     }
     private fun changeBack(clickBtnName: String) {
         //initializing a handler
@@ -236,20 +267,31 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
             }
         }, 2000)
     }
-    fun reset(){
+
+    private fun reset(){
+        //resetting the game
         startGame = false
+        //removing the pattern
         removePattern()
+        //setting all buttons to visible
         for(arr in buttonsAll){
             for (buttons in arr){
                 buttons.visibility = View.VISIBLE
             }
         }
+        score.text = ""
+        //clearing the answers containing array
         answer.clear()
+        //adding time
         timeleft += 5
+        //resetting score
+        correctAns = 0
+        //starting the main function
         randomGen()
     }
 
     private fun listeners(){
+        //setting on click listeners to all the buttons
         for(arr in buttonsAll) {
             for (buttons in arr) {
                 buttons.setOnClickListener(this)
@@ -288,7 +330,9 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
                         else if (i == 2){
                             timerTxt.text = "Time left to Memorize $timeleft"
                             if (timeleft == 0){
+                                //removing the pattern
                                 removePattern()
+                                timerTxt.text = "Select the pattern"
                                 //making the buttons intractable by setting the boolean to true
                                 startGame = true
                                 //stopping the timer
