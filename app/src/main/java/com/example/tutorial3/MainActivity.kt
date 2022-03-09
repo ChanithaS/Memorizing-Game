@@ -1,6 +1,7 @@
 package com.example.tutorial3
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,47 +11,16 @@ import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() , View.OnClickListener {
 
-    private lateinit var but1 : ImageView
-//    private lateinit var but2 : ImageView
-//    private lateinit var but3 : ImageView
-//    private lateinit var but4 : ImageView
-//    private lateinit var but5 : ImageView
-//    private lateinit var but6 : ImageView
-//    private lateinit var but7 : ImageView
-//    private lateinit var but8 : ImageView
-//    private lateinit var but9 : ImageView
-//    private lateinit var but10 : ImageView
-//    private lateinit var but11 : ImageView
-//    private lateinit var but12 : ImageView
-//    private lateinit var but13 : ImageView
-//    private lateinit var but14 : ImageView
-//    private lateinit var but15 : ImageView
-//    private lateinit var but16 : ImageView
-//    private lateinit var but17 : ImageView
-//    private lateinit var but18 : ImageView
-//    private lateinit var but19 : ImageView
-//    private lateinit var but20 : ImageView
-//    private lateinit var but21 : ImageView
-//    private lateinit var but22 : ImageView
-//    private lateinit var but23 : ImageView
-//    private lateinit var but24 : ImageView
-//    private lateinit var but25 : ImageView
-
-
     //storing the button indexes in the generated random grid
     private val answer = mutableListOf<String>()
     private lateinit var timerTxt : TextView
     private lateinit var score : TextView
 
-//    private var buttons = arrayOf<ImageView>()
-//    private var buttons1 = arrayOf<ImageView>()
-//    private var buttons2 = arrayOf<ImageView>()
-//    private var buttons3 = arrayOf<ImageView>()
-//    private var buttons4 = arrayOf<ImageView>()
     private var buttonsAll = arrayOf(arrayOf<ImageView>())
     var timeleft:Int = 5
     var startGame = false
     var correctAns = 0
+    var noOfClicks = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,6 +71,7 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
     }
 
     private fun randomGen() {
+        timerTxt.text = "Pattern will be displayed in 5sec"
         val gridSize = Random.nextInt(0,5)
 
         for ((index, images) in buttonsAll.withIndex()){
@@ -136,9 +107,6 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
                         images[4].visibility = View.GONE
                     }
             }
-            else if (gridSize == 3){
-                return
-            }
             else if(gridSize == 4){
                 images[4].visibility = View.GONE
             }
@@ -151,48 +119,11 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
             }
         }
         timer(1)
-    }
-    private fun timer(i: Int) {
-        //time to repeat every sec
-        val period:Long  = 1000
-        //setting timer to start boolean to true
-        var timerStart = true
-
-        //creating a timer
-        val timer = Timer()
-        timer.scheduleAtFixedRate(object : TimerTask(){
-            override fun run() {
-                //checking if to start timer then only starting the time
-                if (timerStart){
-                    //decreasing time
-                    timeleft--
-                    //calling functions on a thread
-                    runOnUiThread( Runnable()
-                    {
-                        //count down for displaying the timer after 5sec
-                        if (i == 1){
-                            timerTxt.text = "Pattern will Display in $timeleft"
-                            if (timeleft == 0){
-                                //printing thr pattern
-                                pattern()
-                                //stopping the timer
-                                timerStart = false
-                            }
-                        }
-                        //count down for removing the pattern
-                        else if (i == 2){
-                            timerTxt.text = "Time left to Memorize $timeleft"
-                            if (timeleft == 0){
-                                removePattern()
-                                startGame = true
-                                //stopping the timer
-                                timerStart = false
-                            }
-                        }
-                    })
-                }
-            }
-        }, 0, period)
+//        val handler = Handler()
+//        handler.postDelayed(Runnable {
+//            //finding the respective button
+//            pattern()
+//        }, 5000)
     }
 
     fun pattern(){
@@ -226,6 +157,12 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
         }
         timeleft += 5
         timer(2)
+//        val handler = Handler()
+//        handler.postDelayed(Runnable {
+//            //finding the respective button
+//            removePattern()
+//            startGame = true
+//        }, 5000)
     }
 
     fun removePattern(){
@@ -234,19 +171,30 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
                 buttons.setImageResource(R.drawable.start)
             }
         }
+        noOfClicks = 0
     }
 
     override fun onClick(view: View?) {
+        //if starting the game is true
         if (startGame){
+            //increasing the no.of clicks clicked by user
+            noOfClicks++
+            //setting is there boolean to false at start
             var isThere = false
+            //getting the id of the button clicked
             val clickBtnName = resources.getResourceEntryName(view?.id!!)
+            //checking for every id name stored in the answers array.. if clicked button is there
             for (buttonIds in answer){
                 if (clickBtnName == buttonIds){
+                    //if only setting is there to true
                     isThere = true
                 }
             }
+            //if the button is a correct answer
             if (isThere){
+                //increasing correct answers
                 correctAns++
+                //getting the button from the 2d array changing its image
                 for(arr in buttonsAll){
                     for (buttons in arr){
                         if (resources.getResourceEntryName(buttons.id) == clickBtnName) {
@@ -254,6 +202,8 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
                         }
                     }
                 }
+                //changing the button to normal after 2 seconds
+                changeBack(clickBtnName)
             }else {
                 for(arr in buttonsAll){
                     for (buttons in arr){
@@ -262,9 +212,43 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
                         }
                     }
                 }
+                //changing the button to normal after 2 seconds
+                changeBack(clickBtnName)
+            }
+            if (noOfClicks >= answer.size){
+                reset()
             }
         }
+
     }
+    private fun changeBack(clickBtnName: String) {
+        //initializing a handler
+        val handler = Handler()
+        handler.postDelayed(Runnable {
+            //finding the respective button
+            for(arr in buttonsAll){
+                for (buttons in arr){
+                    if (resources.getResourceEntryName(buttons.id) == clickBtnName) {
+                        //setting to default color
+                        buttons.setImageResource(R.drawable.start)
+                    }
+                }
+            }
+        }, 2000)
+    }
+    fun reset(){
+        startGame = false
+        removePattern()
+        for(arr in buttonsAll){
+            for (buttons in arr){
+                buttons.visibility = View.VISIBLE
+            }
+        }
+        answer.clear()
+        timeleft += 5
+        randomGen()
+    }
+
     private fun listeners(){
         for(arr in buttonsAll) {
             for (buttons in arr) {
@@ -272,4 +256,49 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
             }
         }
     }
+
+    private fun timer(i: Int) {
+        //time to repeat every sec
+        val period:Long  = 1000
+        //setting timer to start boolean to true
+        var timerStart = true
+
+        //creating a timer
+        val timer = Timer()
+        timer.scheduleAtFixedRate(object : TimerTask(){
+            override fun run() {
+                //checking if to start timer then only starting the time
+                if (timerStart){
+                    //decreasing time
+                    timeleft--
+                    //calling functions on a thread
+                    runOnUiThread( Runnable()
+                    {
+                        //count down for displaying the timer after 5sec
+                        if (i == 1){
+                            timerTxt.text = "Pattern will Display in $timeleft"
+                            if (timeleft == 0){
+                                //printing thr pattern
+                                pattern()
+                                //stopping the timer
+                                timerStart = false
+                            }
+                        }
+                        //count down for removing the pattern
+                        else if (i == 2){
+                            timerTxt.text = "Time left to Memorize $timeleft"
+                            if (timeleft == 0){
+                                removePattern()
+                                //making the buttons intractable by setting the boolean to true
+                                startGame = true
+                                //stopping the timer
+                                timerStart = false
+                            }
+                        }
+                    })
+                }
+            }
+        }, 0, period)
+    }
+
 }
